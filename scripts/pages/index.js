@@ -1,46 +1,95 @@
-    async function getPhotographers() {
-        // Ceci est un exemple de données pour avoir un affichage de photographes de test dès le démarrage du projet, 
-        // mais il sera à remplacer avec une requête sur le fichier JSON en utilisant "fetch".
-        let photographers = [
-            {
-                "name": "Ma data test",
-                "id": 1,
-                "city": "Paris",
-                "country": "France",
-                "tagline": "Ceci est ma data test",
-                "price": 400,
-                "portrait": "account.png"
-            },
-            {
-                "name": "Autre data test",
-                "id": 2,
-                "city": "Londres",
-                "country": "UK",
-                "tagline": "Ceci est ma data test 2",
-                "price": 500,
-                "portrait": "account.png"
-            },
-        ]
-        // et bien retourner le tableau photographers seulement une fois récupéré
-        return ({
-            photographers: [...photographers, ...photographers, ...photographers]})
+import { photographerTemplate } from '../templates/photographer.js';
+
+// Creation of the Photographer class
+class Photographer {
+    constructor(id, name, city, country, tagline, price, portrait) {
+        this._id = id;
+        this._name = name;
+        this._city = city;
+        this._country = country;
+        this._tagline = tagline;
+        this._price = price;
+        this._portrait = portrait;
     }
 
-    async function displayData(photographers) {
-        const photographersSection = document.querySelector(".photographer_section");
+    // Getters to access the private properties of the photographer
+    get id() {
+        return this._id;
+    }
 
-        photographers.forEach((photographer) => {
-            const photographerModel = photographerTemplate(photographer);
-            const userCardDOM = photographerModel.getUserCardDOM();
-            photographersSection.appendChild(userCardDOM);
+    get name() {
+        return this._name;
+    }
+
+    get city() {
+        return this._city;
+    }
+
+    get country() {
+        return this._country;
+    }
+
+    get tagline() {
+        return this._tagline;
+    }
+
+    get price() {
+        return this._price;
+    }
+
+    get portrait() {
+        return this._portrait;
+    }
+}
+
+async function getPhotographers() {
+    try {
+        // Fetch request to get photographer data from a JSON file
+        const response = await fetch('../../data/photographers.json');
+
+        if(!response.ok) {
+            throw new Error('Erreur lors de la récupération du fichier JSON');
+        }
+
+        const data = await response.json();
+        console.log(data);
+
+        // Create an array of photographers using the Photographer class
+        let photographers = data.photographers.map((element) => {
+            return new Photographer(
+                element.id,
+                element.name,
+                element.city,
+                element.country,
+                element.tagline,
+                element.price,
+                element.portrait
+            );
         });
-    }
 
-    async function init() {
-        // Récupère les datas des photographes
-        const { photographers } = await getPhotographers();
-        displayData(photographers);
+        // Return an object containing the array of photographers
+        return { photographers };
+
+    } catch(error) {
+        console.error('Erreur lors de la récupération des données:', error);
     }
-    
-    init();
+}
+
+async function displayData(photographers) {
+    const photographersSection = document.querySelector(".photographer_section");
+
+    photographers.forEach((photographer) => {
+        const photographerModel = photographerTemplate(photographer);
+        const userCardDOM = photographerModel.getUserCardDOM();
+        photographersSection.appendChild(userCardDOM);
+    });
+}
+
+async function init() {
+    // Récupère les datas des photographes
+    const { photographers } = await getPhotographers();
+    displayData(photographers);
+}
+
+init();
     

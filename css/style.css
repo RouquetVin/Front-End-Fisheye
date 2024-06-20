@@ -2,7 +2,8 @@
 
 body {
     font-family: "DM Sans", sans-serif;
-    margin: 0;
+    margin: auto;
+    max-width: 1240px;
 }
 
 
@@ -12,39 +13,92 @@ header {
     justify-content: space-between;
     align-items: center;
     height: 90px;
+    padding: 20px 0;
 }
 
 h1 {
     color: #901C1C;
-    margin-right: 100px;
 }
 
 .logo {
     height: 50px;
-    margin-left: 100px;
 }
 
 .photographer_section {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: auto auto auto;
     gap: 70px;
     margin-top: 100px;
+    justify-content: space-between;
 }
 
-.photographer_section article {
-    justify-self: center;
+.photographer_section article,
+.photographer_section article .link {
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    text-decoration: none;
 }
 
-.photographer_section article h2 {
-    color: #D3573C;
-    font-size: 36px;
+.name {
+    color: #d3573c;
+    font-size: 26px;
+    font-weight: 400;
+    margin: 0;
 }
 
-.photographer_section article img {
+.profile {
     height: 200px;
     width: 200px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-bottom: 20px;
+}
+
+.img_profile {
+    height: 100%;
+    width: 100%;
+    border-radius: 50%;
+    transform: scale(1.5);
+    object-fit: cover;
+    object-position: center 22%;
+}
+
+.img_profile_930 {
+    object-position: 50% 10px;
+}
+
+.img_profile_82 {
+    transform: scale(1.2);
+    object-position: 15px;
+}
+
+.img_profile_527 {
+    transform: scale(1.2);
+    object-position: 10px -30px;
+}
+
+.img_profile_925 {
+    object-position: 55% 5px;
+}
+
+.location, .description, .price {
+    font-weight: 400;
+    margin: 0;
+    margin-bottom: 5px;
+}
+
+.location {
+    font-size: 13px;
+    color: #901C1C;
+}
+
+.description {
+    font-size: 10px;
+}
+
+.price {
+    font-size: 9px;
+    color: #757575;
 }

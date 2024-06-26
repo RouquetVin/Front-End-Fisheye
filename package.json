@@ -1,0 +1,18 @@
+{
+	"name": "p6",
+	"version": "1.0.0",
+	"description": "Rien à installer ici, il suffit d'ouvrir le fichier `index.html`.",
+	"main": "index.js",
+	"scripts": {
+		"lint": "eslint .",
+		"lint:fix": "eslint . --fix"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"devDependencies": {
+		"@eslint/js": "^9.5.0",
+		"eslint": "^9.5.0",
+		"globals": "^15.6.0"
+	}
+}

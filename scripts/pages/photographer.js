@@ -50,6 +50,12 @@ class PhotographerPage {
 		return { photographer, media, totalLikes };
 	}
 
+	updateContactModalTitle(name) {
+		const contactModalTitle =
+			document.querySelector('.photog-name');
+		contactModalTitle.innerHTML = `Contactez-moi <br>${name}`;
+	}
+
 	displayPhotographerData(data) {
 		const { photographer, media, totalLikes } = data;
 		const { id, name, city, country, tagline, portrait, price } =
@@ -85,6 +91,8 @@ class PhotographerPage {
 		containerInfos.appendChild(nameElement);
 		containerInfos.appendChild(locationElement);
 		containerInfos.appendChild(taglineElement);
+
+		this.updateContactModalTitle(name);
 
 		// Create and append the photographer filter section to the main container of the page
 		const filterSection = new PhotographerFilterSection();

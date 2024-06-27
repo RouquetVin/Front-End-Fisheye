@@ -1,104 +1,104 @@
-@import url("photographer.css");
+@import url('photographer.css');
 
 body {
-    font-family: "DM Sans", sans-serif;
-    margin: auto;
-    max-width: 1240px;
+	font-family: 'DM Sans', sans-serif;
+	margin: auto;
+	max-width: 1240px;
 }
 
-
 header {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    height: 90px;
-    padding: 20px 0;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+	height: 90px;
+	padding: 20px 0;
 }
 
 h1 {
-    color: #901C1C;
+	color: #901c1c;
 }
 
 .logo {
-    height: 50px;
+	height: 50px;
 }
 
 .photographer_section {
-    display: grid;
-    grid-template-columns: auto auto auto;
-    gap: 70px;
-    margin-top: 100px;
-    justify-content: space-between;
+	display: grid;
+	grid-template-columns: auto auto auto;
+	gap: 70px;
+	margin-top: 100px;
+	justify-content: space-between;
 }
 
 .photographer_section article,
 .photographer_section article .link {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    text-decoration: none;
-}
-
-.name {
-    color: #d3573c;
-    font-size: 26px;
-    font-weight: 400;
-    margin: 0;
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+	text-decoration: none;
 }
 
 .profile {
-    height: 200px;
-    width: 200px;
-    border-radius: 50%;
-    overflow: hidden;
-    margin-bottom: 20px;
+	height: 200px;
+	width: 200px;
+	border-radius: 50%;
+	overflow: hidden;
+	margin-bottom: 20px;
 }
 
 .img_profile {
-    height: 100%;
-    width: 100%;
-    border-radius: 50%;
-    transform: scale(1.5);
-    object-fit: cover;
-    object-position: center 22%;
+	height: 100%;
+	width: 100%;
+	border-radius: 50%;
+	transform: scale(1.5);
+	object-fit: cover;
+	object-position: center 22%;
 }
 
 .img_profile_930 {
-    object-position: 50% 10px;
+	object-position: 50% 10px;
 }
 
 .img_profile_82 {
-    transform: scale(1.2);
-    object-position: 15px;
+	transform: scale(1.2);
+	object-position: 15px;
 }
 
 .img_profile_527 {
-    transform: scale(1.2);
-    object-position: 10px -30px;
+	transform: scale(1.2);
+	object-position: 10px -30px;
 }
 
 .img_profile_925 {
-    object-position: 55% 5px;
+	object-position: 55% 5px;
 }
 
-.location, .description, .price {
-    font-weight: 400;
-    margin: 0;
-    margin-bottom: 5px;
+.name {
+	color: #d3573c;
+	font-size: 26px;
+	font-weight: 400;
+	margin: 0;
+}
+
+.location,
+.description,
+.price {
+	font-weight: 400;
+	margin: 0;
+	margin-bottom: 5px;
 }
 
 .location {
-    font-size: 13px;
-    color: #901C1C;
+	font-size: 13px;
+	color: #901c1c;
 }
 
 .description {
-    font-size: 10px;
+	font-size: 10px;
 }
 
 .price {
-    font-size: 9px;
-    color: #757575;
+	font-size: 9px;
+	color: #757575;
 }

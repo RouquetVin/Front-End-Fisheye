@@ -1,5 +1,6 @@
 import { MediaFactory } from '../factories/mediaFactory.js';
 import { PhotographerTemplate } from '../templates/photographer.js';
+import { PhotographerFilterSection } from '../templates/filter.js';
 
 class PhotographerPage {
 	constructor() {
@@ -84,6 +85,12 @@ class PhotographerPage {
 		containerInfos.appendChild(nameElement);
 		containerInfos.appendChild(locationElement);
 		containerInfos.appendChild(taglineElement);
+
+		// Create and append the photographer filter section to the main container of the page
+		const filterSection = new PhotographerFilterSection();
+		const sectionElement =
+			filterSection.createPhotogFilterSection();
+		document.querySelector('main').appendChild(sectionElement);
 
 		// Creation of the photographer's media section
 		const photographerMediaSection =

@@ -11,6 +11,97 @@
 	padding: 0 50px;
 }
 
+/* Filter */
+
+.filter_container {
+	position: relative;
+	display: inline-block;
+	margin-top: 30px;
+}
+
+.btn_container {
+	display: flex;
+	align-items: center;
+}
+
+#open_filter {
+	background-color: #901c1c;
+	color: white;
+	border: none;
+	padding: 12px;
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	width: 170px;
+	height: 70px;
+	font-size: 18px;
+	font-weight: 700;
+	border-radius: 5px;
+}
+
+#open_filter i {
+	margin-left: 10px;
+}
+
+.select_container {
+	display: none;
+	position: absolute;
+	top: 100%;
+	left: 0;
+	background-color: #901c1c;
+	color: white;
+	min-width: 160px;
+	box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+	z-index: 1;
+	flex-direction: column;
+	font-size: 18px;
+	font-weight: 700;
+	border-radius: 0 0 5px 5px;
+}
+
+.select_container.active {
+	display: flex;
+	position: absolute;
+	left: 99px;
+}
+
+.select_container ul {
+	list-style-type: none;
+	padding: 0;
+	margin: 0;
+	width: 170px;
+}
+
+.select_container li {
+	cursor: pointer;
+	height: 70px;
+	display: flex;
+	align-items: center;
+	padding-left: 12px;
+}
+
+hr {
+	margin: 0 10px;
+}
+
+.select_container li:hover,
+#open_filter:hover {
+	background-color: #b22222;
+}
+
+.select_container li:last-child:hover {
+	border-radius: 0 0 5px 5px;
+}
+
+label[for='choice'] {
+	font-size: 18px;
+	font-weight: 700;
+	margin-right: 30px;
+}
+
+/* */
+
 .contact_button {
 	font-size: 20px;
 	font-weight: bold;

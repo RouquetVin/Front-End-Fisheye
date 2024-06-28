@@ -1,6 +1,7 @@
 import { MediaFactory } from '../factories/mediaFactory.js';
 import { PhotographerTemplate } from '../templates/photographer.js';
 import { PhotographerFilterSection } from '../templates/filter.js';
+import { LikeSystem } from '../utils/like.js';
 
 class PhotographerPage {
 	constructor() {
@@ -94,6 +95,8 @@ class PhotographerPage {
 
 		this.updateContactModalTitle(name);
 
+		this.likeSystem = new LikeSystem(totalLikes);
+
 		// Create and append the photographer filter section to the main container of the page
 		const filterSection = new PhotographerFilterSection();
 		const sectionElement =
@@ -151,6 +154,10 @@ class PhotographerPage {
 			mediaContainer.appendChild(mediaElement);
 			mediaContainer.appendChild(titleHeart);
 			photographerMediaSection.appendChild(mediaContainer);
+
+			heart.addEventListener('click', () =>
+				this.likeSystem.handleLikeClick(likesCount, heart),
+			);
 		});
 
 		const counterHeart = document.createElement('section');

@@ -42,9 +42,9 @@ class Photographer {
 	}
 }
 
+// Fetches photographers' data from a JSON file and returns it as an array of Photographer objects
 async function getPhotographers() {
 	try {
-		// Fetch request to get photographer data from a JSON file
 		const response = await fetch('../../data/photographers.json');
 
 		if (!response.ok) {
@@ -69,7 +69,6 @@ async function getPhotographers() {
 			);
 		});
 
-		// Return an object containing the array of photographers
 		return { photographers };
 	} catch (error) {
 		console.error(
@@ -79,6 +78,7 @@ async function getPhotographers() {
 	}
 }
 
+// Displays photographers' data on the webpage by generating DOM elements for each photographer
 async function displayData(photographers) {
 	const photographersSection = document.querySelector(
 		'.photographer_section',
@@ -92,8 +92,8 @@ async function displayData(photographers) {
 	});
 }
 
+// Initializes the application by fetching photographers' data and displaying it on the webpage
 async function init() {
-	// Retrieves data from photographers
 	const { photographers } = await getPhotographers();
 	if (photographers) {
 		displayData(photographers);
@@ -104,4 +104,5 @@ async function init() {
 	}
 }
 
+// Call the init function to start the application
 init();

@@ -1,5 +1,7 @@
+// Creation of the MediaFactory class
 export class MediaFactory {
 	constructor(photogDataMdById, photoDtById) {
+		// Determine the type of media (image or video) and set the source path and other properties accordingly
 		if (
 			Object.prototype.hasOwnProperty.call(
 				photogDataMdById,

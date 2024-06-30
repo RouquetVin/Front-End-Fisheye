@@ -1,14 +1,15 @@
 document.addEventListener('DOMContentLoaded', function () {
 	// DOM Elements
+	const main = document.querySelector('main');
 	const modal = document.getElementById('contact_modal');
-	const contactButton = document.querySelector('.contact_button');
 	const closeModalButton = document.querySelector('.cls');
+	const form = document.querySelector('form');
+	const inputs = document.querySelectorAll('input');
 	const firstname = document.getElementById('prenom');
 	const lastname = document.getElementById('nom');
 	const email = document.getElementById('email');
 	const message = document.getElementById('message');
-	const form = document.querySelector('form');
-	const main = document.querySelector('main');
+	const contactButton = document.querySelector('.contact_button');
 
 	// Display modal
 	function displayModal() {
@@ -20,6 +21,10 @@ document.addEventListener('DOMContentLoaded', function () {
 	// Close modal
 	function closeModal() {
 		modal.style.display = 'none';
+		inputs.forEach((input) => {
+			hideErrorMessage(input);
+		});
+		hideErrorMessage(message);
 	}
 
 	closeModalButton.addEventListener('click', closeModal);

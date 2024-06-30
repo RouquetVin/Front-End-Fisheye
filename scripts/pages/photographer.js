@@ -2,21 +2,29 @@ import { MediaFactory } from '../factories/mediaFactory.js';
 import { PhotographerTemplate } from '../templates/photographer.js';
 import { PhotographerFilterSection } from '../templates/filter.js';
 import { LikeSystem } from '../utils/like.js';
+import { initLightbox } from '../utils/lightbox.js';
 
+// Creation of the PhotographerPage class
 class PhotographerPage {
 	constructor() {
+		// DOM Elements
 		this.photographHeader = document.querySelector(
 			'.photograph-header',
 		);
 		this.main = document.querySelector('main');
+
+		// Instantiating templates and utilities
 		this.template = new PhotographerTemplate();
+		this.lightbox = initLightbox();
 	}
 
+	// Retrieves the photographer ID from the URL query parameters
 	getPhotographerId() {
 		const urlParams = new URLSearchParams(window.location.search);
 		return urlParams.get('id');
 	}
 
+	// Fetches photographer data from a JSON file asynchronously
 	async fetchPhotographerData() {
 		try {
 			const response = await fetch(
@@ -37,6 +45,7 @@ class PhotographerPage {
 		}
 	}
 
+	// Filters the photographer data based on the photographer ID
 	filterPhotographerData(data, id) {
 		const photographer = data.photographers.find(
 			(photographer) => photographer.id == id,
@@ -51,18 +60,20 @@ class PhotographerPage {
 		return { photographer, media, totalLikes };
 	}
 
+	// Updates the contact modal title with the photographer's name
 	updateContactModalTitle(name) {
 		const contactModalTitle =
 			document.querySelector('.photog-name');
 		contactModalTitle.innerHTML = `Contactez-moi <br>${name}`;
 	}
 
+	// Displays the photographer's data on the page
 	displayPhotographerData(data) {
 		const { photographer, media, totalLikes } = data;
 		const { id, name, city, country, tagline, portrait, price } =
 			photographer;
 
-		// Using PhotographerTemplate Methods
+		// Create and append elements for photographer's profile section
 		const containerImg = document.createElement('div');
 		containerImg.classList.add('profile');
 		containerImg.style.marginBottom = '0';
@@ -85,7 +96,6 @@ class PhotographerPage {
 		taglineElement.style.fontSize = '18px';
 		taglineElement.style.fontWeight = '400';
 
-		// Assembling the elements
 		this.photographHeader.appendChild(containerImg);
 		containerImg.appendChild(profileImage);
 		this.photographHeader.prepend(containerInfos);
@@ -93,30 +103,31 @@ class PhotographerPage {
 		containerInfos.appendChild(locationElement);
 		containerInfos.appendChild(taglineElement);
 
+		// Update the contact modal title
 		this.updateContactModalTitle(name);
 
+		// Initialize the like system for the photographer
 		this.likeSystem = new LikeSystem(totalLikes);
 
-		// Create and append the photographer filter section to the main container of the page
+		// Create and append the photographer filter section
 		const filterSection = new PhotographerFilterSection();
 		const sectionElement =
 			filterSection.createPhotogFilterSection();
-		document.querySelector('main').appendChild(sectionElement);
+		this.main.appendChild(sectionElement);
 
-		// Creation of the photographer's media section
+		// Create and append the photographer's media section
 		const photographerMediaSection =
 			document.createElement('section');
 		photographerMediaSection.classList.add('photographer-media');
 		this.main.appendChild(photographerMediaSection);
 
-		// Using MediaFactory to create and display media
+		// Loop through each media item and create DOM elements
 		media.forEach((mediaItem) => {
 			const mediaObject = new MediaFactory(
 				mediaItem,
 				photographer,
 			);
 
-			// Create a container for each media item and its title
 			const mediaContainer = document.createElement('div');
 			mediaContainer.classList.add(
 				'photographer-media-container',
@@ -146,6 +157,7 @@ class PhotographerPage {
 
 			const titleHeart = document.createElement('div');
 			titleHeart.classList.add('titleHeart');
+
 			titleHeart.appendChild(mediaTitle);
 			likesHeart.appendChild(likesCount);
 			likesHeart.appendChild(heart);
@@ -153,37 +165,45 @@ class PhotographerPage {
 
 			mediaContainer.appendChild(mediaElement);
 			mediaContainer.appendChild(titleHeart);
+
 			photographerMediaSection.appendChild(mediaContainer);
 
+			// Add media item to lightbox for full-screen view
+			this.lightbox.addMediaItem(mediaElement, mediaItem.title);
+
+			// Add event listener for like button click
 			heart.addEventListener('click', () =>
 				this.likeSystem.handleLikeClick(likesCount, heart),
 			);
 		});
 
+		// Create and append the section for displaying total likes and price
 		const counterHeart = document.createElement('section');
 		counterHeart.classList.add('counterHeart');
 		counterHeart.innerHTML = `
-            <div class="counterHeart_price">
-                <div class="counterHeart_bloc">
-                    <p>${totalLikes}</p>
-                    <i class="fa-solid fa-heart"></i>
-                </div>
-                <p>${price} / jour</p>
-            </div>
-        `;
+			<div class="counterHeart_price">
+				<div class="counterHeart_bloc">
+					<p>${totalLikes}</p>
+					<i class="fa-solid fa-heart"></i>
+				</div>
+				<p>${price} / jour</p>
+			</div>
+		`;
 		this.main.appendChild(counterHeart);
 	}
 
+	// Initializes the photographer page by fetching data and displaying it
 	async init() {
 		const photographerId = this.getPhotographerId();
 		const data = await this.fetchPhotographerData();
-		const filteredData = this.filterPhotographerData(
+		const photographerData = this.filterPhotographerData(
 			data,
 			photographerId,
 		);
-		this.displayPhotographerData(filteredData);
+		this.displayPhotographerData(photographerData);
 	}
 }
 
+// Initialize the PhotographerPage class and start the page initialization process
 const photographerPage = new PhotographerPage();
 photographerPage.init();

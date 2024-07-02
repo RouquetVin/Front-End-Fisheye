@@ -3,6 +3,7 @@ import { PhotographerTemplate } from '../templates/photographer.js';
 import { PhotographerFilterSection } from '../templates/filter.js';
 import { LikeSystem } from '../utils/like.js';
 import { initLightbox } from '../utils/lightbox.js';
+import { MediaFilter } from '../utils/filter.js'; // Import the new filter module
 
 // PhotographerPage class to manage the photographer's page
 class PhotographerPage {
@@ -61,22 +62,6 @@ class PhotographerPage {
 		const contactModalTitle =
 			document.querySelector('.photog-name');
 		contactModalTitle.innerHTML = `Contactez-moi <br>${name}`;
-	}
-
-	// Sort media based on the selected filter option
-	sortMedia(media, option) {
-		if (option === 'Popularité') {
-			return media.sort((a, b) => b.likes - a.likes);
-		} else if (option === 'Date') {
-			return media.sort(
-				(a, b) => new Date(b.date) - new Date(a.date),
-			);
-		} else if (option === 'Titre') {
-			return media.sort((a, b) =>
-				a.title.localeCompare(b.title),
-			);
-		}
-		return media;
 	}
 
 	// Display the photographer's profile data on the page
@@ -186,14 +171,14 @@ class PhotographerPage {
 		const counterHeart = document.createElement('section');
 		counterHeart.classList.add('counterHeart');
 		counterHeart.innerHTML = `
-			<div class="counterHeart_price">
-				<div class="counterHeart_bloc">
-					<p>${totalLikes}</p>
-					<i class="fa-solid fa-heart"></i>
-				</div>
-				<p>${price} / jour</p>
-			</div>
-		`;
+      <div class="counterHeart_price">
+        <div class="counterHeart_bloc">
+          <p>${totalLikes}</p>
+          <i class="fa-solid fa-heart"></i>
+        </div>
+        <p>${price} / jour</p>
+      </div>
+    `;
 		this.main.appendChild(counterHeart);
 	}
 
@@ -230,7 +215,10 @@ class PhotographerPage {
 
 		// Display media sorted by default option (Popularity)
 		this.displayPhotographerMedia(
-			this.sortMedia(this.photographerData.media, 'Popularité'),
+			MediaFilter.sortMedia(
+				this.photographerData.media,
+				'Popularité',
+			),
 		);
 
 		this.displayTotalLikesAndPrice(
@@ -245,7 +233,7 @@ class PhotographerPage {
 				if (event.target.tagName === 'LI') {
 					const selectedOption = event.target.textContent;
 					this.displayPhotographerMedia(
-						this.sortMedia(
+						MediaFilter.sortMedia(
 							this.photographerData.media,
 							selectedOption,
 						),

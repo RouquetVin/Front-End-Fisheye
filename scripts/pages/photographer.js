@@ -4,7 +4,7 @@ import { PhotographerFilterSection } from '../templates/filter.js';
 import { LikeSystem } from '../utils/like.js';
 import { initLightbox } from '../utils/lightbox.js';
 
-// Creation of the PhotographerPage class
+// PhotographerPage class to manage the photographer's page
 class PhotographerPage {
 	constructor() {
 		// DOM Elements
@@ -16,36 +16,32 @@ class PhotographerPage {
 		// Instantiating templates and utilities
 		this.template = new PhotographerTemplate();
 		this.lightbox = initLightbox();
+		this.photographerData = null;
 	}
 
-	// Retrieves the photographer ID from the URL query parameters
+	// Retrieve the photographer ID from the URL query parameters
 	getPhotographerId() {
 		const urlParams = new URLSearchParams(window.location.search);
 		return urlParams.get('id');
 	}
 
-	// Fetches photographer data from a JSON file asynchronously
+	// Fetch photographer data from a JSON file asynchronously
 	async fetchPhotographerData() {
 		try {
 			const response = await fetch(
 				'../../data/photographers.json',
 			);
 			if (!response.ok) {
-				throw new Error(
-					'Erreur lors de la récupération du fichier JSON',
-				);
+				throw new Error('Error retrieving JSON file');
 			}
 			const data = await response.json();
 			return data;
 		} catch (error) {
-			console.error(
-				'Erreur lors de la récupération des données:',
-				error,
-			);
+			console.error('Error fetching data:', error);
 		}
 	}
 
-	// Filters the photographer data based on the photographer ID
+	// Filter photographer data based on the photographer ID
 	filterPhotographerData(data, id) {
 		const photographer = data.photographers.find(
 			(photographer) => photographer.id == id,
@@ -60,20 +56,35 @@ class PhotographerPage {
 		return { photographer, media, totalLikes };
 	}
 
-	// Updates the contact modal title with the photographer's name
+	// Update the contact modal title with the photographer's name
 	updateContactModalTitle(name) {
 		const contactModalTitle =
 			document.querySelector('.photog-name');
 		contactModalTitle.innerHTML = `Contactez-moi <br>${name}`;
 	}
 
-	// Displays the photographer's data on the page
-	displayPhotographerData(data) {
-		const { photographer, media, totalLikes } = data;
-		const { id, name, city, country, tagline, portrait, price } =
+	// Sort media based on the selected filter option
+	sortMedia(media, option) {
+		if (option === 'Popularité') {
+			return media.sort((a, b) => b.likes - a.likes);
+		} else if (option === 'Date') {
+			return media.sort(
+				(a, b) => new Date(b.date) - new Date(a.date),
+			);
+		} else if (option === 'Titre') {
+			return media.sort((a, b) =>
+				a.title.localeCompare(b.title),
+			);
+		}
+		return media;
+	}
+
+	// Display the photographer's profile data on the page
+	displayPhotographerProfile(photographer) {
+		const { id, name, city, country, tagline, portrait } =
 			photographer;
 
-		// Create and append elements for photographer's profile section
+		// Create and append elements for the photographer's profile section
 		const containerImg = document.createElement('div');
 		containerImg.classList.add('profile');
 		containerImg.style.marginBottom = '0';
@@ -105,27 +116,19 @@ class PhotographerPage {
 
 		// Update the contact modal title
 		this.updateContactModalTitle(name);
+	}
 
-		// Initialize the like system for the photographer
-		this.likeSystem = new LikeSystem(totalLikes);
+	// Display the photographer's media data on the page
+	displayPhotographerMedia(media) {
+		const photographerMediaSection = document.querySelector(
+			'.photographer-media',
+		);
+		photographerMediaSection.innerHTML = '';
 
-		// Create and append the photographer filter section
-		const filterSection = new PhotographerFilterSection();
-		const sectionElement =
-			filterSection.createPhotogFilterSection();
-		this.main.appendChild(sectionElement);
-
-		// Create and append the photographer's media section
-		const photographerMediaSection =
-			document.createElement('section');
-		photographerMediaSection.classList.add('photographer-media');
-		this.main.appendChild(photographerMediaSection);
-
-		// Loop through each media item and create DOM elements
 		media.forEach((mediaItem) => {
 			const mediaObject = new MediaFactory(
 				mediaItem,
-				photographer,
+				this.photographerData.photographer,
 			);
 
 			const mediaContainer = document.createElement('div');
@@ -176,8 +179,10 @@ class PhotographerPage {
 				this.likeSystem.handleLikeClick(likesCount, heart),
 			);
 		});
+	}
 
-		// Create and append the section for displaying total likes and price
+	// Display the section for total likes and price
+	displayTotalLikesAndPrice(totalLikes, price) {
 		const counterHeart = document.createElement('section');
 		counterHeart.classList.add('counterHeart');
 		counterHeart.innerHTML = `
@@ -192,15 +197,61 @@ class PhotographerPage {
 		this.main.appendChild(counterHeart);
 	}
 
-	// Initializes the photographer page by fetching data and displaying it
+	// Initialize the photographer page by fetching data and displaying it
 	async init() {
 		const photographerId = this.getPhotographerId();
 		const data = await this.fetchPhotographerData();
-		const photographerData = this.filterPhotographerData(
+		this.photographerData = this.filterPhotographerData(
 			data,
 			photographerId,
 		);
-		this.displayPhotographerData(photographerData);
+
+		this.displayPhotographerProfile(
+			this.photographerData.photographer,
+		);
+
+		// Initialize the like system for the photographer
+		this.likeSystem = new LikeSystem(
+			this.photographerData.totalLikes,
+		);
+
+		// Create and append the photographer filter section
+		const filterSection = new PhotographerFilterSection(
+			this.photographerData.media,
+		);
+		const sectionElement =
+			filterSection.createPhotogFilterSection();
+		this.main.appendChild(sectionElement);
+
+		const photographerMediaSection =
+			document.createElement('section');
+		photographerMediaSection.classList.add('photographer-media');
+		this.main.appendChild(photographerMediaSection);
+
+		// Display media sorted by default option (Popularity)
+		this.displayPhotographerMedia(
+			this.sortMedia(this.photographerData.media, 'Popularité'),
+		);
+
+		this.displayTotalLikesAndPrice(
+			this.photographerData.totalLikes,
+			this.photographerData.photographer.price,
+		);
+
+		// Add event listener for filter changes
+		sectionElement
+			.querySelector('#choice')
+			.addEventListener('click', (event) => {
+				if (event.target.tagName === 'LI') {
+					const selectedOption = event.target.textContent;
+					this.displayPhotographerMedia(
+						this.sortMedia(
+							this.photographerData.media,
+							selectedOption,
+						),
+					);
+				}
+			});
 	}
 }
 

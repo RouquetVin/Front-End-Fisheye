@@ -1,9 +1,8 @@
 // Creation of the PhotographerFilterSection
 export class PhotographerFilterSection {
-	constructor(photogDataMById = [], photogDataById = []) {
+	constructor(photogMedias = []) {
 		// Initialize the properties with the provided data
-		this._photogMedias = photogDataMById;
-		this._photographers = photogDataById;
+		this._photogMedias = photogMedias;
 		// Define the sorting options
 		this.options = ['Popularité', 'Date', 'Titre'];
 	}

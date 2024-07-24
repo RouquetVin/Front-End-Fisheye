@@ -58,10 +58,15 @@ export class PhotographerTemplate {
 		const tag = this.createTagline(tagline);
 		const pr = this.createPrice(price);
 
+		// Set attributes for articles
+		article.setAttribute('tabindex', '0');
+
 		// Set attributes and classes for the link element
 		link.classList.add('link');
 		link.setAttribute('href', `photographer.html?id=${id}`);
 		link.setAttribute('target', '_self');
+		link.setAttribute('role', 'link');
+		link.setAttribute('aria-label', `${name}`);
 
 		// Set class for the image container div
 		divImg.classList.add('profile');

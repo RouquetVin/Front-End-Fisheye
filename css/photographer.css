@@ -1,3 +1,14 @@
+.sr-only {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	border: 0;
+}
+
 .photograph-header {
 	background-color: #fafafa;
 	height: 300px;
@@ -114,10 +125,11 @@ hr {
 .photographer-media {
 	display: flex;
 	flex-wrap: wrap;
-	justify-content: space-between;
+	justify-content: flex-start;
 	align-items: center;
 	margin: 40px 0 120px;
-	gap: 20px;
+	column-gap: 95px;
+	row-gap: 30px;
 }
 
 .photographer-media img,
@@ -211,7 +223,7 @@ hr {
 	margin-top: 10px;
 }
 
-#contact_modal {
+.contact_modal {
 	display: none;
 	position: fixed;
 	inset: 0;
@@ -252,7 +264,7 @@ hr {
 
 .modal header img {
 	cursor: pointer;
-	padding-top: 0.83em;
+	margin-top: 0.83em;
 }
 
 form {
@@ -305,6 +317,8 @@ form input {
 	height: 68px;
 	border: none;
 	border-radius: 5px;
+	font-size: 20px;
+	box-sizing: border-box;
 }
 
 form textarea {
@@ -313,6 +327,8 @@ form textarea {
 	min-height: 170px;
 	max-height: 170px;
 	border-radius: 5px;
+	font-size: 20px;
+	box-sizing: border-box;
 }
 
 .counterHeart {

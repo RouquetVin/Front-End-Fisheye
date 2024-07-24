@@ -3,7 +3,7 @@ import { PhotographerTemplate } from '../templates/photographer.js';
 import { PhotographerFilterSection } from '../templates/filter.js';
 import { LikeSystem } from '../utils/like.js';
 import { initLightbox } from '../utils/lightbox.js';
-import { MediaFilter } from '../utils/filter.js'; // Import the new filter module
+import { MediaFilter } from '../utils/filter.js';
 
 // PhotographerPage class to manage the photographer's page
 class PhotographerPage {
@@ -108,6 +108,7 @@ class PhotographerPage {
 		const photographerMediaSection = document.querySelector(
 			'.photographer-media',
 		);
+		photographerMediaSection.setAttribute('role', 'region');
 		photographerMediaSection.innerHTML = '';
 
 		media.forEach((mediaItem) => {
@@ -120,6 +121,7 @@ class PhotographerPage {
 			mediaContainer.classList.add(
 				'photographer-media-container',
 			);
+			mediaContainer.setAttribute('tabindex', '0');
 
 			const mediaElement = document.createElement(
 				mediaObject.type === 'image' ? 'img' : 'video',
@@ -128,13 +130,13 @@ class PhotographerPage {
 			mediaElement.alt = mediaObject.alt;
 			mediaElement.controls = mediaObject.controls;
 			mediaElement.classList.add('photographer-media-item');
+			mediaElement.setAttribute('tabindex', '0');
+
+			const titleHeart = document.createElement('div');
+			titleHeart.classList.add('titleHeart');
 
 			const mediaTitle = document.createElement('h2');
 			mediaTitle.textContent = mediaItem.title;
-
-			const heart = document.createElement('i');
-			heart.classList.add('fa-solid', 'fa-heart');
-			heart.style.cursor = 'pointer';
 
 			const likesCount = document.createElement('span');
 			likesCount.textContent = mediaItem.likes;
@@ -142,9 +144,16 @@ class PhotographerPage {
 
 			const likesHeart = document.createElement('div');
 			likesHeart.classList.add('likesHeart');
+			likesHeart.setAttribute('tabindex', '0');
 
-			const titleHeart = document.createElement('div');
-			titleHeart.classList.add('titleHeart');
+			const heart = document.createElement('i');
+			heart.classList.add('fa-solid', 'fa-heart');
+			heart.setAttribute('tabindex', '0');
+			heart.style.cursor = 'pointer';
+			heart.setAttribute(
+				'aria-label',
+				'Ajouter ou retirer votre like',
+			);
 
 			titleHeart.appendChild(mediaTitle);
 			likesHeart.appendChild(likesCount);
@@ -163,18 +172,30 @@ class PhotographerPage {
 			heart.addEventListener('click', () =>
 				this.likeSystem.handleLikeClick(likesCount, heart),
 			);
+
+			// Add event listener for like button keydown
+			heart.addEventListener('keydown', (e) => {
+				if (e.key === 'Enter') {
+					e.preventDefault();
+					this.likeSystem.handleLikeClick(
+						likesCount,
+						heart,
+					);
+				}
+			});
 		});
 	}
 
 	// Display the section for total likes and price
 	displayTotalLikesAndPrice(totalLikes, price) {
 		const counterHeart = document.createElement('section');
+		counterHeart.setAttribute('role', 'region');
 		counterHeart.classList.add('counterHeart');
 		counterHeart.innerHTML = `
-      <div class="counterHeart_price">
+      <div class="counterHeart_price" tabindex="0">
         <div class="counterHeart_bloc">
           <p>${totalLikes}</p>
-          <i class="fa-solid fa-heart"></i>
+          <i class="fa-solid fa-heart" aria-label="like en tout"></i>
         </div>
         <p>${price} / jour</p>
       </div>

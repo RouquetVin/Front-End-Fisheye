@@ -27,6 +27,13 @@ export class LikeSystem {
 
 		// Add or remove the 'liked' class to visually indicate if the element is liked
 		heartElement.classList.toggle('liked', !isLiked);
+
+		// Update the aria-live region with the like/dislike message
+		this.updateLiveRegion(
+			isLiked
+				? 'Vous avez retiré votre like'
+				: 'Vous avez ajouté un like',
+		);
 	}
 
 	// Updates the total number of likes displayed on the page
@@ -37,5 +44,11 @@ export class LikeSystem {
 		);
 		// Update its text content with the total number of likes
 		totalLikesElement.textContent = this.totalLikes;
+	}
+
+	// Updates the aria-live region with a given message
+	updateLiveRegion(message) {
+		const liveRegion = document.getElementById('live-region');
+		liveRegion.textContent = message;
 	}
 }

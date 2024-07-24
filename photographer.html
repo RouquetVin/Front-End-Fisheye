@@ -12,49 +12,53 @@
 </head>
 
 <body>
-  <header>
-    <a href="./index.html" title="Accueil">
+  <header class="header">
+    <a href="./index.html" title="Accueil" role="link">
       <img src="assets/images/logo.png" class="logo" alt="fisheye logo">
     </a>
   </header>
   <main id="main">
-    <div class="photograph-header">
+    <!-- Aria-live region for dynamic updates -->
+    <div id="live-region" class="sr-only" aria-live="polite"></div>
+
+    <div class="photograph-header" role="banner" aria-label="photographe header" tabindex="0">
       <button type="button" class="contact_button">Contactez-moi</button>
     </div>
   </main>
   <!-- Lightbox container -->
-  <div class="lightbox-container">
-    <button class="lightbox-close">&times;</button>
-    <button class="lightbox-prev">&#8249;</button>
-    <button class="lightbox-next">&#8250;</button>
+  <div class="lightbox-container" role="application" aria-hidden="true">
+    <button type="button" class="lightbox-close" aria-label="Fermer la lightbox">&times;</button>
+    <button type="button" class="lightbox-prev" aria-label="Image précédente">&#8249;</button>
+    <button type="button" class="lightbox-next" aria-label="Image suivante">&#8250;</button>
     <div class="lightbox-image-container"></div>
   </div>
-  <div id="contact_modal">
+  <!-- Contact modal -->
+  <div id="contact_modal" class="contact_modal" role="dialog" aria-hidden="true">
     <div class="modal">
       <header>
         <h2 class="photog-name">Contactez-moi</h2>
-        <img src="assets/icons/close.svg" alt="croix fermeture" class="cls">
+        <img src="assets/icons/close.svg" alt="" class="cls" tabindex="0" aria-label="Fermer la modale">
       </header>
       <form>
         <div>
-          <div class="formData">
-            <label for="prenom">Prénom</label>
-            <input type="text" name="prenom" id="prenom">
+          <div class="formData" tabindex="0">
+            <label for="prenom" aria-hidden="true">Prénom</label>
+            <input type="text" name="prenom" id="prenom" aria-required="true" aria-label="prénom">
           </div>
-          <div class="formData">
-            <label for="nom">Nom</label>
-            <input type="text" name="nom" id="nom">
+          <div class="formData" tabindex="0">
+            <label for="nom" aria-hidden="true">Nom</label>
+            <input type="text" name="nom" id="nom" aria-required="true" aria-label="nom">
           </div>
-          <div class="formData">
-            <label for="email">Email</label>
-            <input type="email" name="email" id="email">
+          <div class="formData" tabindex="0">
+            <label for="email" aria-hidden="true">Email</label>
+            <input type="email" name="email" id="email" aria-required="true" aria-label="email">
           </div>
-          <div class="formData">
-            <label for="message">Votre message</label>
-            <textarea name="message" id="message"></textarea>
+          <div class="formData" tabindex="0">
+            <label for="message" aria-hidden="true">Votre message</label>
+            <textarea name="message" id="message" aria-required="true" aria-label="votre message"></textarea>
           </div>
         </div>
-        <button type="submit" class="contact_button">Envoyer</button>
+        <button type="submit" class="contact_button" aria-label="Envoyer le formulaire" role="button">Envoyer</button>
       </form>
     </div>
   </div>

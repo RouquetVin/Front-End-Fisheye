@@ -1,10 +1,14 @@
 @import url('photographer.css');
 
+/* body */
+
 body {
 	font-family: 'DM Sans', sans-serif;
 	margin: auto;
 	max-width: 1240px;
 }
+
+/* header */
 
 header {
 	display: flex;
@@ -22,6 +26,8 @@ h1 {
 .logo {
 	height: 50px;
 }
+
+/* photographer section */
 
 .photographer_section {
 	display: grid;

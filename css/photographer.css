@@ -1,3 +1,5 @@
+/* Screen Reader Only */
+
 .sr-only {
 	position: absolute;
 	width: 1px;
@@ -8,6 +10,8 @@
 	clip: rect(0, 0, 0, 0);
 	border: 0;
 }
+
+/* Photograph Header */
 
 .photograph-header {
 	background-color: #fafafa;
@@ -31,7 +35,7 @@
 	cursor: pointer;
 }
 
-/* Filter */
+/* Filter Section */
 
 .filter_container {
 	position: relative;
@@ -120,7 +124,7 @@ hr {
 	border-radius: 0 0 5px 5px;
 }
 
-/* */
+/* Photographer Media Section */
 
 .photographer-media {
 	display: flex;
@@ -153,7 +157,13 @@ hr {
 	font-weight: 400;
 }
 
-/* Lightbox */
+.likesHeart {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+}
+
+/* Lightbox Container */
 
 .lightbox-container {
 	display: none;
@@ -222,6 +232,8 @@ hr {
 	font-weight: 400;
 	margin-top: 10px;
 }
+
+/* Modal Form */
 
 .contact_modal {
 	display: none;
@@ -331,6 +343,23 @@ form textarea {
 	box-sizing: border-box;
 }
 
+/* Success Modal */
+
+.close {
+	display: flex;
+	justify-content: flex-end;
+	width: 100%;
+	cursor: pointer;
+}
+
+.title-btn {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+/* Counter Heart Section */
+
 .counterHeart {
 	width: 376px;
 	height: 76px;
@@ -357,24 +386,5 @@ form textarea {
 
 .counterHeart_bloc i {
 	display: flex;
-	align-items: center;
-}
-
-.likesHeart {
-	display: flex;
-	align-items: center;
-	gap: 10px;
-}
-
-.close {
-	display: flex;
-	justify-content: flex-end;
-	width: 100%;
-	cursor: pointer;
-}
-
-.title-btn {
-	display: flex;
-	flex-direction: column;
 	align-items: center;
 }

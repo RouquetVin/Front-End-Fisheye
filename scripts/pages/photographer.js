@@ -1,3 +1,4 @@
+import { Api } from '../api/api.js';
 import { MediaFactory } from '../factories/mediaFactory.js';
 import { PhotographerTemplate } from '../templates/photographer.js';
 import { PhotographerFilterSection } from '../templates/filter.js';
@@ -29,16 +30,12 @@ class PhotographerPage {
 	// Fetch photographer data from a JSON file asynchronously
 	async fetchPhotographerData() {
 		try {
-			const response = await fetch(
+			const data = await Api.fetchData(
 				'../../data/photographers.json',
 			);
-			if (!response.ok) {
-				throw new Error('Error retrieving JSON file');
-			}
-			const data = await response.json();
 			return data;
 		} catch (error) {
-			console.error('Error fetching data:', error);
+			console.error('Erreur lors de la récupération des données du photographe:', error);
 		}
 	}
 

@@ -1,3 +1,4 @@
+import { Api } from '../api/api.js';
 import { PhotographerTemplate } from '../templates/photographer.js';
 
 // Creation of the Photographer class
@@ -45,15 +46,9 @@ class Photographer {
 // Fetches photographers' data from a JSON file and returns it as an array of Photographer objects
 async function getPhotographers() {
 	try {
-		const response = await fetch('../../data/photographers.json');
-
-		if (!response.ok) {
-			throw new Error(
-				'Erreur lors de la récupération du fichier JSON',
-			);
-		}
-
-		const data = await response.json();
+		const data = await Api.fetchData(
+			'../../data/photographers.json',
+		);
 		console.log(data);
 
 		// Create an array of photographers using the Photographer class
@@ -72,7 +67,7 @@ async function getPhotographers() {
 		return { photographers };
 	} catch (error) {
 		console.error(
-			'Erreur lors de la récupération des données:',
+			'Erreur lors de la récupération des photographes:',
 			error,
 		);
 	}

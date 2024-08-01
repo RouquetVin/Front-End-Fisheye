@@ -26,7 +26,9 @@ export function initLightbox() {
 
 	// Function to open the lightbox with the media at the given index
 	function openLightbox(index) {
-		triggerElement = document.activeElement;
+		if (triggerElement === null) {
+			triggerElement = document.activeElement;
+		}
 		currentIndex = index;
 		const mediaItem = mediaItems[index];
 		const mediaTitle = mediaTitles[index];
@@ -65,6 +67,7 @@ export function initLightbox() {
 		lightboxContainer.setAttribute('aria-hidden', 'true');
 		if (triggerElement) {
 			triggerElement.focus();
+			triggerElement = null;
 		}
 
 		closeBtn.removeEventListener('click', closeLightbox);

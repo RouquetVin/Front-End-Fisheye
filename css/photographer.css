@@ -70,10 +70,6 @@ label[for='choice'] {
 	border-radius: 5px;
 }
 
-#open_filter i {
-	margin-left: 10px;
-}
-
 .select_container {
 	display: none;
 	position: absolute;
@@ -384,7 +380,7 @@ form textarea {
 	gap: 10px;
 }
 
-.counterHeart_bloc i {
+.counterHeart_bloc em {
 	display: flex;
 	align-items: center;
 }

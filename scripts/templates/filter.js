@@ -19,7 +19,7 @@ export class PhotographerFilterSection {
                 <label id="filterLabel" for="choice">Trier par</label>
                 <button id='open_filter' aria-haspopup="listbox" aria-expanded="false" aria-labelledby="filterLabel currentSelection" aria-selected="true" role="option">
                     <span id="currentSelection">${this.options[0]}</span>
-                    <i class="arrows fas fa-chevron-down"></i>
+                    <em class="arrows fas fa-chevron-down"></em>
                 </button>
             </div>
             <div class='select_container'>

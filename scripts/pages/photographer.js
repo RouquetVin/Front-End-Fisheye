@@ -35,7 +35,10 @@ class PhotographerPage {
 			);
 			return data;
 		} catch (error) {
-			console.error('Erreur lors de la récupération des données du photographe:', error);
+			console.error(
+				'Erreur lors de la récupération des données du photographe:',
+				error,
+			);
 		}
 	}
 
@@ -143,7 +146,7 @@ class PhotographerPage {
 			likesHeart.classList.add('likesHeart');
 			likesHeart.setAttribute('tabindex', '0');
 
-			const heart = document.createElement('i');
+			const heart = document.createElement('em');
 			heart.classList.add('fa-solid', 'fa-heart');
 			heart.setAttribute('tabindex', '0');
 			heart.style.cursor = 'pointer';
@@ -192,7 +195,7 @@ class PhotographerPage {
       <div class="counterHeart_price" tabindex="0">
         <div class="counterHeart_bloc">
           <p>${totalLikes}</p>
-          <i class="fa-solid fa-heart" aria-label="like en tout"></i>
+          <em class="fa-solid fa-heart" aria-label="like en tout"></em>
         </div>
         <p>${price} / jour</p>
       </div>

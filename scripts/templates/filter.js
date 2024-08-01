@@ -78,6 +78,11 @@ export class PhotographerFilterSection {
 							'false',
 						);
 						openFilterButton.focus();
+						// Remove keydown listener when menu is closed
+						document.removeEventListener(
+							'keydown',
+							handleKeyDown,
+						);
 					});
 					choiceList.appendChild(hr);
 					choiceList.appendChild(listItem);
@@ -101,6 +106,8 @@ export class PhotographerFilterSection {
 				});
 				const firstItem = choiceList.querySelector('li');
 				if (firstItem) firstItem.focus();
+				// Add keydown listener when menu is open
+				document.addEventListener('keydown', handleKeyDown);
 			} else {
 				icon.classList.remove('fa-chevron-up');
 				icon.classList.add('fa-chevron-down');
@@ -110,6 +117,11 @@ export class PhotographerFilterSection {
 					item.setAttribute('tabindex', '-1');
 				});
 				openFilterButton.focus();
+				// Remove keydown listener when menu is closed
+				document.removeEventListener(
+					'keydown',
+					handleKeyDown,
+				);
 			}
 		};
 
@@ -153,11 +165,13 @@ export class PhotographerFilterSection {
 					'false',
 				);
 				openFilterButton.focus();
+				// Remove keydown listener when menu is closed
+				document.removeEventListener(
+					'keydown',
+					handleKeyDown,
+				);
 			}
 		};
-
-		// Add event listener for keyboard navigation
-		document.addEventListener('keydown', handleKeyDown);
 
 		// Initialize the options list with the first option selected
 		updateOptions(this.options[0]);

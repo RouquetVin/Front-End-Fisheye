@@ -9,8 +9,8 @@ export class MediaFactory {
 			)
 		) {
 			this.type = 'image';
-			this.src = `../../assets/images/${photoDtById.name}/${photogDataMdById.image}`;
-			this.alt = photogDataMdById.title;
+			this.src = `../../assets/images/${photoDtById.id}/${photogDataMdById.image}`;
+			this.alt = '';
 		} else if (
 			Object.prototype.hasOwnProperty.call(
 				photogDataMdById,
@@ -18,8 +18,7 @@ export class MediaFactory {
 			)
 		) {
 			this.type = 'video';
-			this.src = `../../assets/images/${photoDtById.name}/${photogDataMdById.video}`;
-			this.alt = photogDataMdById.title;
+			this.src = `../../assets/images/${photoDtById.id}/${photogDataMdById.video}`;
 			this.controls = true;
 		} else {
 			throw new Error('Media inconnu');

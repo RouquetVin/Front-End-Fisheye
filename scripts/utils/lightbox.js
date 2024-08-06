@@ -34,11 +34,13 @@ export function initLightbox() {
 		const mediaTitle = mediaTitles[index];
 		imageContainer.innerHTML = '';
 		const mediaElement = mediaItem.cloneNode(true);
-		mediaElement.removeAttribute('role');
+
+		// Update the aria-label of the cloned media element
+		mediaElement.setAttribute('aria-label', `${mediaTitle}`);
 
 		imageContainer.appendChild(mediaElement);
 
-		const mediaTitleElement = document.createElement('div');
+		const mediaTitleElement = document.createElement('p');
 		mediaTitleElement.classList.add('lightbox-title');
 		mediaTitleElement.textContent = mediaTitle;
 
@@ -46,6 +48,7 @@ export function initLightbox() {
 
 		lightboxContainer.classList.add('visible');
 		lightboxContainer.setAttribute('aria-hidden', 'false');
+
 		closeBtn.focus();
 
 		// Add event listeners to close the lightbox and navigate to the next and previous media items
@@ -65,6 +68,7 @@ export function initLightbox() {
 	function closeLightbox() {
 		lightboxContainer.classList.remove('visible');
 		lightboxContainer.setAttribute('aria-hidden', 'true');
+
 		if (triggerElement) {
 			triggerElement.focus();
 			triggerElement = null;
@@ -80,18 +84,20 @@ export function initLightbox() {
 		document.removeEventListener('keydown', trapFocus);
 	}
 
-	// Function to show the next media item in the lightbox
-	function showNextMedia() {
-		currentIndex = (currentIndex + 1) % mediaItems.length;
-		openLightbox(currentIndex);
-	}
-
 	// Function to show the previous media item in the lightbox
 	function showPrevMedia() {
 		currentIndex =
 			(currentIndex - 1 + mediaItems.length) %
 			mediaItems.length;
 		openLightbox(currentIndex);
+		prevBtn.focus();
+	}
+
+	// Function to show the next media item in the lightbox
+	function showNextMedia() {
+		currentIndex = (currentIndex + 1) % mediaItems.length;
+		openLightbox(currentIndex);
+		nextBtn.focus();
 	}
 
 	// Function to handle keyboard events
@@ -127,6 +133,7 @@ export function initLightbox() {
 		if (e.key === 'Enter') {
 			e.preventDefault();
 			showPrevMedia();
+			prevBtn.focus();
 		}
 	}
 
@@ -135,6 +142,7 @@ export function initLightbox() {
 		if (e.key === 'Enter') {
 			e.preventDefault();
 			showNextMedia();
+			nextBtn.focus();
 		}
 	}
 
@@ -183,15 +191,17 @@ export function initLightbox() {
 		}
 	}
 
-	// Method to add a media element to the lightbox
+	// Function to add a media element to the lightbox
 	function addMediaItem(mediaItem, title) {
 		const index = mediaItems.length;
 		mediaItems.push(mediaItem);
 		mediaTitles.push(title);
 
 		mediaItem.setAttribute('tabindex', '0');
-		mediaItem.setAttribute('role', 'button');
-		mediaItem.setAttribute('aria-label', title);
+		mediaItem.setAttribute(
+			'aria-label',
+			`${title}, ouvrir la lightbox sur ce média`,
+		);
 
 		mediaItem.addEventListener('click', () => {
 			keyboardInteraction = false;

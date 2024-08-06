@@ -79,7 +79,9 @@ class PhotographerPage {
 			name,
 		);
 		const containerInfos = document.createElement('div');
-		const nameElement = this.template.createName(name);
+		const nameElement = document.createElement('h1');
+		nameElement.textContent = `${name}`;
+		nameElement.classList.add('name');
 		nameElement.style.fontSize = '64px';
 		nameElement.style.fontWeight = '400';
 		const locationElement = this.template.createLocation(
@@ -108,7 +110,6 @@ class PhotographerPage {
 		const photographerMediaSection = document.querySelector(
 			'.photographer-media',
 		);
-		photographerMediaSection.setAttribute('role', 'region');
 		photographerMediaSection.innerHTML = '';
 
 		media.forEach((mediaItem) => {
@@ -121,7 +122,6 @@ class PhotographerPage {
 			mediaContainer.classList.add(
 				'photographer-media-container',
 			);
-			mediaContainer.setAttribute('tabindex', '0');
 
 			const mediaElement = document.createElement(
 				mediaObject.type === 'image' ? 'img' : 'video',
@@ -130,7 +130,6 @@ class PhotographerPage {
 			mediaElement.alt = mediaObject.alt;
 			mediaElement.controls = mediaObject.controls;
 			mediaElement.classList.add('photographer-media-item');
-			mediaElement.setAttribute('tabindex', '0');
 
 			const titleHeart = document.createElement('div');
 			titleHeart.classList.add('titleHeart');
@@ -146,13 +145,13 @@ class PhotographerPage {
 			likesHeart.classList.add('likesHeart');
 			likesHeart.setAttribute('tabindex', '0');
 
-			const heart = document.createElement('em');
-			heart.classList.add('fa-solid', 'fa-heart');
-			heart.setAttribute('tabindex', '0');
+			const heart = document.createElement('button');
+			heart.setAttribute('tabindex', '-1');
+			heart.classList.add('fa-solid', 'fa-heart', 'heart');
 			heart.style.cursor = 'pointer';
 			heart.setAttribute(
 				'aria-label',
-				'Ajouter ou retirer votre like',
+				'Like, Ajouter ou retirer votre like',
 			);
 
 			titleHeart.appendChild(mediaTitle);
@@ -169,12 +168,12 @@ class PhotographerPage {
 			this.lightbox.addMediaItem(mediaElement, mediaItem.title);
 
 			// Add event listener for like button click
-			heart.addEventListener('click', () =>
+			likesHeart.addEventListener('click', () =>
 				this.likeSystem.handleLikeClick(likesCount, heart),
 			);
 
 			// Add event listener for like button keydown
-			heart.addEventListener('keydown', (e) => {
+			likesHeart.addEventListener('keydown', (e) => {
 				if (e.key === 'Enter') {
 					e.preventDefault();
 					this.likeSystem.handleLikeClick(
@@ -188,16 +187,15 @@ class PhotographerPage {
 
 	// Display the section for total likes and price
 	displayTotalLikesAndPrice(totalLikes, price) {
-		const counterHeart = document.createElement('section');
-		counterHeart.setAttribute('role', 'region');
+		const counterHeart = document.createElement('div');
 		counterHeart.classList.add('counterHeart');
 		counterHeart.innerHTML = `
-      <div class="counterHeart_price" tabindex="0">
+      <div class="counterHeart_price">
         <div class="counterHeart_bloc">
           <p>${totalLikes}</p>
-          <em class="fa-solid fa-heart" aria-label="like en tout"></em>
+          <em class="fa-solid fa-heart"></em>
         </div>
-        <p>${price} / jour</p>
+        <p>${price}€ / jour</p>
       </div>
     `;
 		this.main.appendChild(counterHeart);

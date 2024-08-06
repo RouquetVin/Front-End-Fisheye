@@ -9,21 +9,20 @@ export class PhotographerFilterSection {
 
 	createPhotogFilterSection() {
 		// Create the main section element for the filter
-		const photogFilterSection = document.createElement('section');
+		const photogFilterSection = document.createElement('div');
 		photogFilterSection.classList.add('filter_container');
-		photogFilterSection.setAttribute('role', 'region');
 
 		// Set the inner HTML for the filter section
 		photogFilterSection.innerHTML = `
             <div class='btn_container'>
-                <label id="filterLabel" for="choice">Trier par</label>
-                <button id='open_filter' aria-haspopup="listbox" aria-expanded="false" aria-labelledby="filterLabel currentSelection" aria-selected="true" role="option">
+                <span id="filterLabel">Trier par</span>
+                <button id='open_filter' aria-haspopup="listbox" aria-expanded="false" aria-labelledby="filterLabel currentSelection" role="combobox">
                     <span id="currentSelection">${this.options[0]}</span>
                     <em class="arrows fas fa-chevron-down"></em>
                 </button>
-            </div>
-            <div class='select_container'>
-                <ul id='choice' role="listbox" aria-labelledby="filterLabel"></ul>
+                <div class='select_container'>
+                    <ul id='choice' role="listbox" aria-labelledby="filterLabel"></ul>
+                </div>
             </div>
         `;
 
@@ -54,7 +53,6 @@ export class PhotographerFilterSection {
 					const listItem = document.createElement('li');
 					listItem.setAttribute('role', 'option');
 					listItem.setAttribute('tabindex', '-1');
-					listItem.setAttribute('aria-selected', 'false');
 					listItem.textContent = option;
 					listItem.setAttribute('aria-label', option);
 					const hr = document.createElement('hr');
@@ -84,7 +82,7 @@ export class PhotographerFilterSection {
 							handleKeyDown,
 						);
 					});
-					choiceList.appendChild(hr);
+					listItem.prepend(hr);
 					choiceList.appendChild(listItem);
 				}
 			});
@@ -154,24 +152,59 @@ export class PhotographerFilterSection {
 					toggleMenu();
 				}
 			} else if (e.key === 'Escape') {
-				selectContainer.classList.remove('active');
-				openFilterButton.style.borderRadius = '5px';
-				const icon =
-					openFilterButton.querySelector('.arrows');
-				icon.classList.remove('fa-chevron-up');
-				icon.classList.add('fa-chevron-down');
-				openFilterButton.setAttribute(
-					'aria-expanded',
-					'false',
-				);
-				openFilterButton.focus();
-				// Remove keydown listener when menu is closed
-				document.removeEventListener(
-					'keydown',
-					handleKeyDown,
-				);
+				e.preventDefault();
+				if (selectContainer.classList.contains('active')) {
+					toggleMenu();
+				}
 			}
 		};
+
+		// Function to handle the focus leaving the dropdown menu
+		const handleFocusOut = () => {
+			setTimeout(() => {
+				// If the focus is outside the filter section
+				if (
+					!photogFilterSection.contains(
+						document.activeElement,
+					)
+				) {
+					// Close the dropdown menu
+					selectContainer.classList.remove('active');
+					openFilterButton.style.borderRadius = '5px';
+					const icon =
+						openFilterButton.querySelector('.arrows');
+					icon.classList.remove('fa-chevron-up');
+					icon.classList.add('fa-chevron-down');
+					openFilterButton.setAttribute(
+						'aria-expanded',
+						'false',
+					);
+					// Remove keydown listener when menu is closed
+					document.removeEventListener(
+						'keydown',
+						handleKeyDown,
+					);
+				}
+			}, 0);
+		};
+
+		// Function to handle the focus entering the dropdown menu or button
+		const handleFocusIn = (e) => {
+			// If the focus is within the menu or on the button
+			if (
+				selectContainer.contains(e.target) ||
+				e.target === openFilterButton
+			) {
+				// Add keydown listener
+				document.addEventListener('keydown', handleKeyDown);
+			} else {
+				// Focus left the menu
+				handleFocusOut();
+			}
+		};
+
+		// Add event listener to detect focus changes
+		document.addEventListener('focusin', handleFocusIn);
 
 		// Initialize the options list with the first option selected
 		updateOptions(this.options[0]);

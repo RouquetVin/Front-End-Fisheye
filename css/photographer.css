@@ -48,7 +48,7 @@
 	align-items: center;
 }
 
-label[for='choice'] {
+#filterLabel {
 	font-size: 18px;
 	font-weight: 700;
 	margin-right: 30px;
@@ -74,7 +74,7 @@ label[for='choice'] {
 	display: none;
 	position: absolute;
 	top: 100%;
-	left: 0;
+	right: 0;
 	background-color: #901c1c;
 	color: white;
 	min-width: 160px;
@@ -88,8 +88,6 @@ label[for='choice'] {
 
 .select_container.active {
 	display: flex;
-	position: absolute;
-	left: 99px;
 }
 
 .select_container ul {
@@ -100,15 +98,18 @@ label[for='choice'] {
 }
 
 hr {
-	margin: 0 10px;
+	padding: 0 70px;
+	margin: 0;
+	margin-bottom: 20px;
+	color: white;
 }
 
 .select_container li {
 	cursor: pointer;
 	height: 70px;
 	display: flex;
+	flex-direction: column;
 	align-items: center;
-	padding-left: 12px;
 }
 
 .select_container li:hover,
@@ -157,6 +158,14 @@ hr {
 	display: flex;
 	align-items: center;
 	gap: 10px;
+}
+
+.heart {
+	color: #901c1c;
+	background: white;
+	border: none;
+	font-size: 18px;
+	padding: 0;
 }
 
 /* Lightbox Container */
@@ -299,7 +308,7 @@ form div {
 	margin: 0;
 }
 
-.formData[data-error]::after {
+.error-message {
 	content: attr(data-error);
 	font-size: 1em;
 	color: red;
@@ -308,16 +317,6 @@ form div {
 	margin-bottom: 7px;
 	text-align: left;
 	line-height: 0.8;
-	opacity: 0;
-	transition: 0.3s;
-}
-
-.formData[data-error-visible='true']::after {
-	opacity: 1;
-}
-
-.formData[data-error-visible='true'] .text-control {
-	border: 2px solid red;
 }
 
 form input {

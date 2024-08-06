@@ -13,23 +13,23 @@
 
 <body>
   <header class="header">
-    <a href="./index.html" title="Accueil" role="link">
+    <a href="./index.html" aria-label="Accueil Fisheye">
       <img src="assets/images/logo.png" class="logo" alt="fisheye logo">
     </a>
   </header>
-  <main id="main">
+  <main id="main" aria-label="Contenu principal de la page">
     <!-- Aria-live region for dynamic updates -->
     <div id="live-region" class="sr-only" aria-live="polite"></div>
 
-    <div class="photograph-header" role="banner" aria-label="photographe header" tabindex="0">
+    <div class="photograph-header">
       <button type="button" class="contact_button">Contactez-moi</button>
     </div>
   </main>
   <!-- Lightbox container -->
   <div class="lightbox-container" role="application" aria-hidden="true">
     <button type="button" class="lightbox-close" aria-label="Fermer la lightbox">&times;</button>
-    <button type="button" class="lightbox-prev" aria-label="Image précédente">&#8249;</button>
-    <button type="button" class="lightbox-next" aria-label="Image suivante">&#8250;</button>
+    <button type="button" class="lightbox-prev" aria-label="Média précédent">&#8249;</button>
+    <button type="button" class="lightbox-next" aria-label="Média suivant">&#8250;</button>
     <div class="lightbox-image-container"></div>
   </div>
   <!-- Contact modal -->
@@ -41,24 +41,24 @@
       </header>
       <form>
         <div>
-          <div class="formData" tabindex="0">
+          <div class="formData">
             <label for="prenom" aria-hidden="true">Prénom</label>
             <input type="text" name="prenom" id="prenom" aria-required="true" aria-label="prénom">
           </div>
-          <div class="formData" tabindex="0">
+          <div class="formData">
             <label for="nom" aria-hidden="true">Nom</label>
             <input type="text" name="nom" id="nom" aria-required="true" aria-label="nom">
           </div>
-          <div class="formData" tabindex="0">
+          <div class="formData">
             <label for="email" aria-hidden="true">Email</label>
             <input type="email" name="email" id="email" aria-required="true" aria-label="email">
           </div>
-          <div class="formData" tabindex="0">
+          <div class="formData">
             <label for="message" aria-hidden="true">Votre message</label>
             <textarea name="message" id="message" aria-required="true" aria-label="votre message"></textarea>
           </div>
         </div>
-        <button type="submit" class="contact_button" aria-label="Envoyer le formulaire" role="button">Envoyer</button>
+        <button type="submit" class="contact_button" aria-label="Envoyer le formulaire">Envoyer</button>
       </form>
     </div>
   </div>

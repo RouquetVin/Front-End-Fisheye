@@ -1,8 +1,6 @@
 document.addEventListener('DOMContentLoaded', function () {
 	// DOM Elements
 	const body = document.querySelector('body');
-	const header = document.querySelector('.header');
-	const main = document.querySelector('main');
 	const modal = document.querySelector('.contact_modal');
 	const closeModalButton = document.querySelector('.cls');
 	const form = document.querySelector('form');
@@ -45,41 +43,12 @@ document.addEventListener('DOMContentLoaded', function () {
 				}
 			}
 		}
-
-		// Handle arrow keys to prevent focus leaving the modal
-		if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
-			e.preventDefault();
-			const focusIndex = Array.prototype.indexOf.call(
-				focusableElements,
-				document.activeElement,
-			);
-
-			if (e.key === 'ArrowDown') {
-				const nextElement =
-					focusableElements[focusIndex + 1] ||
-					firstFocusableElement;
-				if (nextElement) {
-					nextElement.focus();
-				}
-			}
-
-			if (e.key === 'ArrowUp') {
-				const prevElement =
-					focusableElements[focusIndex - 1] ||
-					lastFocusableElement;
-				if (prevElement) {
-					prevElement.focus();
-				}
-			}
-		}
 	}
 
 	// Function to display the modal
 	function displayModal() {
 		modal.style.display = 'flex';
 		modal.setAttribute('aria-hidden', 'false');
-		header.setAttribute('aria-hidden', 'true');
-		main.setAttribute('aria-hidden', 'true');
 		closeModalButton.focus();
 		document.addEventListener('keydown', trapFocusHandler);
 	}
@@ -97,8 +66,6 @@ document.addEventListener('DOMContentLoaded', function () {
 	function closeModal() {
 		modal.style.display = 'none';
 		modal.setAttribute('aria-hidden', 'true');
-		header.setAttribute('aria-hidden', 'false');
-		main.setAttribute('aria-hidden', 'false');
 		inputs.forEach((input) => {
 			hideErrorMessage(input);
 		});
@@ -118,17 +85,33 @@ document.addEventListener('DOMContentLoaded', function () {
 
 	// Function to display an error message
 	function displayErrorMessage(element, message) {
-		element.parentElement.setAttribute(
-			'data-error-visible',
-			'true',
-		);
-		element.parentElement.setAttribute('data-error', message);
+		const errorId = `${element.id}-error`;
+		let errorElement = document.getElementById(errorId);
+
+		if (!errorElement) {
+			errorElement = document.createElement('div');
+			errorElement.id = errorId;
+			errorElement.className = 'error-message';
+			errorElement.setAttribute('role', 'alert');
+			element.parentElement.appendChild(errorElement);
+		}
+
+		errorElement.textContent = message;
+		element.setAttribute('aria-describedby', errorId);
+		element.classList.add('error');
 	}
 
 	// Function to hide an error message
 	function hideErrorMessage(element) {
-		element.parentElement.removeAttribute('data-error-visible');
-		element.parentElement.removeAttribute('data-error');
+		const errorId = `${element.id}-error`;
+		const errorElement = document.getElementById(errorId);
+
+		if (errorElement) {
+			errorElement.remove();
+		}
+
+		element.removeAttribute('aria-describedby');
+		element.classList.remove('error');
 	}
 
 	// Validation for the first name and the last name
@@ -186,46 +169,35 @@ document.addEventListener('DOMContentLoaded', function () {
 		const container = document.createElement('div');
 		container.classList.add('contact_modal');
 		container.setAttribute('aria-hidden', 'false');
-		header.setAttribute('aria-hidden', 'true');
-		main.setAttribute('aria-hidden', 'true');
+		container.setAttribute('role', 'dialog');
 		container.style.display = 'flex';
 		body.appendChild(container);
 		container.innerHTML = `
-			<div class="modal">
-				<div class="close">
-					<img src="assets/icons/close.svg" alt="" class="close-btn" tabindex="0" aria-label="Fermer la modale">
-				</div>
-				<div class="title-btn">
-					<h2>Votre message a bien été envoyé.</h2>
-					<button type="button" class="contact_button close-btn" aria-label="Fermer la modale">Fermer</button>
-				</div>
-			</div>
-		`;
+            <div class="modal">
+                <div class="close">
+                    <img src="assets/icons/close.svg" alt="" class="close-btn" tabindex="0" aria-label="Fermer la modale">
+                </div>
+                <div class="title-btn">
+                    <h2>Votre message a bien été envoyé.</h2>
+                    <button type="button" class="contact_button close-btn" aria-label="Fermer la modale">Fermer</button>
+                </div>
+            </div>
+        `;
+
+		const liveRegion = document.getElementById('live-region');
+		if (liveRegion) {
+			liveRegion.textContent =
+				'Votre message a bien été envoyé.';
+		}
 
 		const closeBtns = container.querySelectorAll('.close-btn');
 		closeBtns.forEach((closeBtn) => {
 			closeBtn.addEventListener('click', () => {
-				container.remove();
-				container.setAttribute('aria-hidden', 'true');
-				header.setAttribute('aria-hidden', 'false');
-				main.setAttribute('aria-hidden', 'false');
-				contactButton.focus();
-				document.removeEventListener(
-					'keydown',
-					successModalTrapFocusHandler,
-				);
+				closeSuccessModal(container);
 			});
 			closeBtn.addEventListener('keydown', (e) => {
 				if (e.key === 'Escape' || e.key === 'Enter') {
-					container.remove();
-					container.setAttribute('aria-hidden', 'true');
-					header.setAttribute('aria-hidden', 'false');
-					main.setAttribute('aria-hidden', 'false');
-					contactButton.focus();
-					document.removeEventListener(
-						'keydown',
-						successModalTrapFocusHandler,
-					);
+					closeSuccessModal(container);
 				}
 			});
 		});
@@ -235,6 +207,22 @@ document.addEventListener('DOMContentLoaded', function () {
 			successModalTrapFocusHandler,
 		);
 		closeBtns[0].focus();
+	}
+
+	// Function to close the success modal
+	function closeSuccessModal(container) {
+		container.remove();
+		container.setAttribute('aria-hidden', 'true');
+
+		// contactButton.focus();
+		setTimeout(() => {
+			contactButton.focus();
+		}, 100);
+
+		document.removeEventListener(
+			'keydown',
+			successModalTrapFocusHandler,
+		);
 	}
 
 	// Form submission validation and handling

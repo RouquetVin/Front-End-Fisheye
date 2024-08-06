@@ -83,17 +83,7 @@ async function displayData(photographers) {
 	photographers.forEach((photographer) => {
 		const userCardDOM =
 			photographerTemplate.getUserCardDOM(photographer);
-		userCardDOM.setAttribute('role', 'listitem');
-		userCardDOM.setAttribute(
-			'aria-label',
-			`${photographer.name}, ${photographer.city}, ${photographer.country}, ${photographer.tagline}`,
-		);
 		photographersSection.appendChild(userCardDOM);
-
-		const link = userCardDOM.querySelector('a');
-		if (link) {
-			link.setAttribute('role', 'link');
-		}
 	});
 }
 

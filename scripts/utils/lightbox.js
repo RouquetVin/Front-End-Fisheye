@@ -6,10 +6,10 @@ export function initLightbox() {
 	);
 	const closeBtn = document.querySelector('.lightbox-close');
 	const prevBtn = document.querySelector('.lightbox-prev');
-	const nextBtn = document.querySelector('.lightbox-next');
 	const imageContainer = document.querySelector(
 		'.lightbox-image-container',
 	);
+	const nextBtn = document.querySelector('.lightbox-next');
 
 	// Initialize the current index to keep track of the currently displayed media item
 	let currentIndex = 0;

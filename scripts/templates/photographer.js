@@ -53,17 +53,26 @@ export class PhotographerTemplate {
 		const link = document.createElement('a');
 		const divImg = document.createElement('div');
 		const img = this.createProfileImage(portrait, id, name);
-		const h2 = this.createName(name);
-		const location = this.createLocation(city, country);
-		const tag = this.createTagline(tagline);
-		const pr = this.createPrice(price);
+		const h2 = this.createName(name, id);
+		const location = this.createLocation(city, country, id);
+		const tag = this.createTagline(tagline, id);
+		const pr = this.createPrice(price, id);
+
+		// Set unique ids for the elements
+		h2.setAttribute('id', `name-${id}`);
+		location.setAttribute('id', `location-${id}`);
+		tag.setAttribute('id', `description-${id}`);
+		pr.setAttribute('id', `price-${id}`);
 
 		// Set attributes and classes for the link element
 		link.classList.add('link');
 		link.setAttribute('tabindex', '0');
 		link.setAttribute('href', `photographer.html?id=${id}`);
 		link.setAttribute('target', '_self');
-		link.setAttribute('aria-label', `${name}`);
+		link.setAttribute(
+			'aria-labelledby',
+			`name-${id} location-${id} description-${id} price-${id}`,
+		);
 
 		// Set class for the image container div
 		divImg.classList.add('profile');
